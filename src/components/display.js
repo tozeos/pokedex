@@ -276,8 +276,7 @@ const SearchBar = styled.div`
 `
 
 const Content = styled.main`
-  padding: 50px 0;
-  height: calc(100vh - 100px);
+  padding: 90px 0;
   background-color: #36393F;
   color: ${colors.white};
   display: flex;
