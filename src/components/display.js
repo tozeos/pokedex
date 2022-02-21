@@ -42,6 +42,7 @@ export default class Display extends Component {
 
         let {hp, attack, defense, speed, specialAttack, specialDefense} = '';
         let romaji = '';
+        let description = '';
         const name = pokemonRes.data.name;
         const imageUrl = pokemonRes.data.sprites.other["official-artwork"].front_default;
         const id = pokemonRes.data.id;
@@ -51,11 +52,16 @@ export default class Display extends Component {
         const specie = speciesRes.data.genera[7].genus;
         const japanese = speciesRes.data.names[0].name;
 
-
         speciesRes.data.names.some(name => {
             if (name.language.name === "roomaji") {
                 romaji = name.name;
                 return;
+            }
+        })
+
+        speciesRes.data.flavor_text_entries.some(flavor => {
+            if (flavor.language.name === 'en') {
+                description = flavor.flavor_text;
             }
         })
 
@@ -91,6 +97,7 @@ export default class Display extends Component {
             japanese,
             romaji,
             specie,
+            description,
             types,
             stats: {
                 hp,
@@ -107,10 +114,6 @@ export default class Display extends Component {
 
     // Funções piticas
 
-    // nextPokemon() {
-    //     this.state.pokemonId + 1
-    // }
-
     onInputChange(event) {
         this.setState({
             input: event.target.value.toLowerCase()
@@ -123,13 +126,12 @@ export default class Display extends Component {
 
     onSubmitForm() {
         this.loadPokemon();
-        console.log(this.state)
     }
 
     render() {
         return (
             <>
-                <Container>
+                <Header>
                     <h1>Pokédex</h1>
                     <SearchBar>
                         <input type="text"
@@ -140,7 +142,7 @@ export default class Display extends Component {
                         />
                         <button type="submit" name="button" onClick={this.onSubmitForm}/>
                     </SearchBar>
-                </Container>
+                </Header>
 
                 <Content>
                     <PokemonPicture artwork={this.state.imageUrl}/>
@@ -151,7 +153,7 @@ export default class Display extends Component {
                             <span>
                             {`#${(this.state.id < 100) ? (this.state.id >
                                 10) ? '0' + this.state.id : '00' + this.state.id : this.state.id}`}
-                        </span>
+                            </span>
                         </PokemonName>
                         {this.state.types.map(type => (
                                 <PokemonType key={type} style={{backgroundColor: `#${type_colors[type]}`}}>
@@ -159,6 +161,8 @@ export default class Display extends Component {
                                 </PokemonType>
                             )
                         )}
+                        <SubTitle>About</SubTitle>
+                        <Description>{this.state.description}</Description>
                         <SubTitle>Base stats</SubTitle>
                         <Stats>
                             <div>
@@ -195,7 +199,7 @@ export default class Display extends Component {
                         <SubTitle>Other information</SubTitle>
                         <Stats>
                             <div>
-                                <h4>species</h4>
+                                <h4>specie</h4>
                                 <p>{this.state.specie}</p>
                             </div>
                             <div>
@@ -216,10 +220,10 @@ export default class Display extends Component {
                     </PokemonInfo>
                 </Content>
                 <Footer>
-                        Feito por <a href="http://tozeos.dev.br" target="_blank" rel="noreferrer">tozeos</a> dados
-                        da <a
-                        href="https://pokeapi.co/" target="_blank" rel="noreferrer">PokéAPI</a>.
-                    Link para o <a href="https://github.com/tozeos/pokedex" target="_blank" rel="noreferrer"> repositório</a>.
+                    Feito por <a href="http://tozeos.dev.br" target="_blank" rel="noreferrer">tozeos</a> dados
+                    da <a href="https://pokeapi.co/" target="_blank" rel="noreferrer">PokéAPI</a>.
+                    Link para o <a href="https://github.com/tozeos/pokedex" target="_blank"
+                                   rel="noreferrer"> repositório</a>.
                 </Footer>
             </>
 
@@ -227,7 +231,7 @@ export default class Display extends Component {
     }
 }
 
-const Container = styled.header`
+const Header = styled.header`
   background-color: ${colors.gray};
   color: ${colors.white};
   display: flex;
@@ -273,7 +277,7 @@ const SearchBar = styled.div`
 
 const Content = styled.main`
   padding: 50px 0;
-  height: calc(100vh - 150px);
+  height: calc(100vh - 100px);
   background-color: #36393F;
   color: ${colors.white};
   display: flex;
@@ -335,7 +339,15 @@ const SubTitle = styled.h3`
   font-size: 14px;
   color: ${colors.gray2};
   text-transform: uppercase;
-  padding-top: 28px;
+  padding-top: 20px;
+`
+
+const Description = styled.p`
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px;
+  background-color: ${colors.gray};
+  border-radius: 5px;
 `
 
 const Stats = styled.div`
@@ -391,5 +403,5 @@ const Footer = styled.footer`
     text-decoration: none;
   }
 
-  padding: 25px;
+  padding: 20px;
 `
