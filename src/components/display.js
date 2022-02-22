@@ -220,8 +220,8 @@ export default class Display extends Component {
                     </PokemonInfo>
                 </Content>
                 <Footer>
-                    Feito por <a href="http://tozeos.dev.br" target="_blank" rel="noreferrer">tozeos</a> dados
-                    da <a href="https://pokeapi.co/" target="_blank" rel="noreferrer">PokéAPI</a>.
+                    Feito por <a href="http://tozeos.dev.br" target="_blank" rel="noreferrer">tozeos</a>. Dados
+                    retirados da <a href="https://pokeapi.co/" target="_blank" rel="noreferrer">PokéAPI</a>.
                     Link para o <a href="https://github.com/tozeos/pokedex" target="_blank"
                                    rel="noreferrer"> repositório</a>.
                 </Footer>
@@ -243,6 +243,11 @@ const Header = styled.header`
     font-size: 36px;
     text-transform: uppercase;
     user-select: none;
+  }
+
+  @media (max-width: 1000px) {
+    display: flex;
+    flex-direction: column;
   }
 `
 
@@ -273,6 +278,11 @@ const SearchBar = styled.div`
       background-color: rgba(112, 43, 254, 0.8);
     }
   }
+
+  @media (max-width: 1000px) {
+    width: 100%;
+    padding: 0 20px;
+  }
 `
 
 const Content = styled.main`
@@ -282,11 +292,18 @@ const Content = styled.main`
   display: flex;
   justify-content: center;
   gap: 70px;
+
+  @media (max-width: 1000px) {
+    display: flex;
+    flex-direction: column;
+    padding: 40px 0;
+    gap: 20px;
+  }
 `
 
 const PokemonPicture = styled.div`
   background-color: ${colors.black};
-  min-width: 400px;
+  width: 400px;
   height: 400px;
   border-radius: 50%;
   position: relative;
@@ -300,12 +317,29 @@ const PokemonPicture = styled.div`
     background-position: center;
     background-size: cover;
     position: absolute;
+
+    @media (max-width: 1000px) {
+      width: 240px;
+      height: 240px;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
   }
 `
 
 const PokemonInfo = styled.div`
   height: 450px;
   width: 460px;
+
+  @media (max-width: 1000px) {
+    width: 100%;
+    height: fit-content;
+    padding: 0 20px;
+  }
 `
 
 const JapaneseName = styled.span`
@@ -320,6 +354,10 @@ const PokemonName = styled.h2`
 
   span {
     color: ${colors.gray2};
+  }
+
+  @media (max-width: 1000px) {
+    font-size: 36px;
   }
 `
 
@@ -351,6 +389,7 @@ const Description = styled.p`
 
 const Stats = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 5px;
 
   div {
@@ -395,7 +434,7 @@ const Footer = styled.footer`
   background: ${colors.black};
   color: ${colors.white};
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
 
   a {
     color: rgb(254, 210, 21);
